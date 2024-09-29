@@ -16,7 +16,7 @@ Some of them can use it as a drop-in replacement for the original **"Arduboy2" l
 - if EEPROM is used by the game to keep configs/high scores,
 -- add EEPROM.begin(100) at setup() // 100 is just a rough max no. need to check the size
 -- add EEPROM.commit() after the last EEPROM.put(), EEPORM.write() and EEPROM.update() of each blocks of code.
-- remove any reference to the **"ATMlib"**, **"ArduboyPlaytune"** that require timers to play back ground musics. That libraries has not yet been ported
+
 - games that directly control the SPI or I2C bus to write to OLED display need much more work to port instead of the simple steps above.
 - font() array is used in TFT_eSPI display library so you have to chage all "font" to "font_"
 - min() and max() macros are used in TFT_eSPI display library so you have to chage all min() and max() to minVal() and maxVal() correspondenly

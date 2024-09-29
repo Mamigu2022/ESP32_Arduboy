@@ -6,7 +6,10 @@
 
 #include "Arduboy2.h"
 #include "Arduboy2Audio.h"
+#include <Arduboy2.h>
+//#include <ArduboyTones.h>
 
+//estern ArduboyTones sound(arduboy.audio.enabled);
 bool Arduboy2Audio::audio_enabled = true;
 
 void Arduboy2Audio::on(){
@@ -30,8 +33,8 @@ void Arduboy2Audio::saveOnOff(){
 }
 
 void Arduboy2Audio::begin(){
- // if (EEPROM.read(EEPROM_AUDIO_ON_OFF) == true) on();
- // else off();
+  if (EEPROM.read(EEPROM_AUDIO_ON_OFF) == true) on();
+  else off();
 }
 
 bool Arduboy2Audio::enabled(){

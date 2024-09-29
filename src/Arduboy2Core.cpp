@@ -6,6 +6,15 @@
 
 #include "Arduboy2Core.h"
 
+#define RG_GPIO_GAMEPAD_X           34
+#define RG_GPIO_GAMEPAD_Y           35
+//#define RG_GPIO_GAMEPAD_SELECT      27
+//#define RG_GPIO_GAMEPAD_START       39
+#define RG_GPIO_GAMEPAD_A           32
+#define RG_GPIO_GAMEPAD_B           33
+//#define RG_GPIO_GAMEPAD_MENU        13
+//#define RG_GPIO_GAMEPAD_OPTION      0
+
 #if defined(ESP8266)
 TFT_eSPI screen = TFT_eSPI(SCREEN_WIDTH, SCREEN_HEIGHT);
 #elif defined(IPS240)
@@ -48,8 +57,11 @@ Arduboy2Core::Arduboy2Core() {}
 void Arduboy2Core::boot()
 {
   Serial.begin(115200);
+pinMode(RG_GPIO_GAMEPAD_A,INPUT_PULLUP);
+pinMode(RG_GPIO_GAMEPAD_B,INPUT_PULLUP);
 #ifdef ESP32
   esp_timer_init();
+
 #endif
   //WiFi.mode(WIFI_OFF);
   delay(100);
@@ -93,8 +105,10 @@ void Arduboy2Core::boot()
 #else
   screen.begin();
   delay(200);
-  screen.setRotation(0);
+  screen.setRotation(3);
   screen.fillScreen(TFT_BLACK);
+  
+  
 #endif
   Serial.write("Screen Init\r\n");
 
@@ -598,7 +612,20 @@ uint8_t Arduboy2Core::buttonsState()
     }
     #endif
     #endif
+    int joyX = analogRead(RG_GPIO_GAMEPAD_X);
+    int joyY = analogRead(RG_GPIO_GAMEPAD_Y);
 
+    if (joyY > 2048 + 1024) buttons |= UP_BUTTON;
+    else if (joyY > 1024)   buttons |= DOWN_BUTTON;
+    if (joyX > 2048 + 1024) buttons |= LEFT_BUTTON;
+    else if (joyX > 1024)   buttons |= RIGHT_BUTTON;
+    //  if (!gpio_get_level(RG_GPIO_GAMEPAD_MENU))   buttons |= RG_KEY_MENU;
+   // if (!gpio_get_level(RG_GPIO_GAMEPAD_OPTION)) buttons |= RG_KEY_OPTION;
+    //if (!gpio_get_level(RG_GPIO_GAMEPAD_SELECT)) buttons |= RG_KEY_SELECT;
+    //if (!gpio_get_level(RG_GPIO_GAMEPAD_START))  buttons |= RG_KEY_START;
+    if (!digitalRead(RG_GPIO_GAMEPAD_A))      buttons |= A_BUTTON;
+    if (!digitalRead(RG_GPIO_GAMEPAD_B))      buttons |= B_BUTTON;  
+  return buttons;
     if (keystate & BIT_P1_Left)
       buttons |= LEFT_BUTTON; //Left
     if (keystate & BIT_P1_Right)

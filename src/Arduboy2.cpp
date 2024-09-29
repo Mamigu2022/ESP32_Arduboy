@@ -7,7 +7,8 @@
 #include "Arduboy2.h"
 #include "ab_logo.c"
 #include "glcdfont.c"
-
+//#include <TickTwo.h>
+//extern TickTwo tonesTicker;
 #if defined(ESP8266)
 extern TFT_eSPI screen;
 #elif defined(IPS240)
@@ -15,7 +16,6 @@ extern TFT_eSPI screen;
 #elif defined(IPS135)
 extern TFT_eSPI screen;
 #elif defined(EPAPER130)
-extern GxEPD2_BW<GxEPD2_213_B73, 250> displayEPaper; // GDEH0213B73
 #endif
 
 #ifdef ADAFRUIT
@@ -263,7 +263,9 @@ void Arduboy2Base::setFrameDuration(uint8_t duration)
 
 bool Arduboy2Base::everyXFrames(uint8_t frames)
 {
+  
   return frameCount % frames == 0;
+  
 }
 
 bool Arduboy2Base::nextFrame()
@@ -1128,6 +1130,7 @@ void Arduboy2Base::initDraw(void)
 bool semCreate = false;
 void Arduboy2Base::display()
 {
+  
 #ifdef ESP8266
   static uint16_t oBuffer[WIDTH * 16];
 #else
@@ -1194,7 +1197,8 @@ void Arduboy2Base::display()
   gamecurrentTime = esp_timer_get_time();
   gameframeTime = gamecurrentTime - gamelastTime;
   gamefps = 1000000 / gameframeTime;
-
+  //tonesTicker.update();
+  
   //Serial.write(printf("screen : %lld , game : %lld , input : %lld\r\n", fps, gamefps, inputfps));
   this->initDraw();
 #endif

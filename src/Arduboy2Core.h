@@ -3,7 +3,7 @@
  * \brief
  * The Arduboy2Core class for Arduboy hardware initilization and control.
  */
-
+//#define ESP32
 #ifndef ARDUBOY2_CORE_H
 #define ARDUBOY2_CORE_H
 
@@ -13,20 +13,20 @@
 
 // Pick One
 #define IPS240
-#define IPS135
+//#define IPS135
 // #define EPAPER130
 
 #if defined(IPS135)
 #define SCREEN_WIDTH 135
 #define SCREEN_HEIGHT 240 // 122 VIS
-#define PS3GAMEPAD
+//#define PS3GAMEPAD
 #elif defined(IPS240)
-#define SCREEN_WIDTH 240
+#define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
 #define SCALE
-#define INTERLACED_UPDATE
+//#define INTERLACED_UPDATE
 //#define GAMEPAD
-#define PS3GAMEPAD
+//#define PS3GAMEPAD
 #elif defined(EPAPER130)
 #define SCREEN_WIDTH 250
 #define SCREEN_HEIGHT 122 // 122 VIS
@@ -66,16 +66,16 @@
 #define MCP23017address 0 // actually it's 0x20 but in <Adafruit_MCP23017.h> lib there is (x|0x20) :)
 #define MCP4725address  0x60 //DAC driving LCD backlit
 #endif
-
+#define abs(x) ((x)<0 ? -(x) : (x))
 #define maxVal(a,b) ((a)>(b)?(a):(b))
 #define minVal(a,b) ((a)<(b)?(a):(b))
 #define LHSWAP(w) (uint16_t)((((uint16_t)w)>>8)|(((uint16_t)w)<<8))
 
 // there is only one pin for audio
-#define PIN_SPEAKER_1 D3
-#define PIN_SPEAKER_2 D3
+#define PIN_SPEAKER_1 26
+#define PIN_SPEAKER_2 25
 
-#define LEDPIN 	D4
+#define LEDPIN 	17
 #define RGB_ON 	200
 #define RGB_OFF 0
 #define RED_LED  0
